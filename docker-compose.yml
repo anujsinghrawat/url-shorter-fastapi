@@ -1,0 +1,33 @@
+# docker-compose.yml
+version: "3.8"
+
+services:
+  fastapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fastapi_app
+    expose:
+      - "8000"
+    # If your FastAPI app needs environment variables, you can define them here:
+    # environment:
+    #   - MY_VARIABLE=my_value
+    # networks:
+    #   - app-network
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: nginx_reverse_proxy
+    ports:
+      - "80:80"
+    depends_on:
+      - fastapi
+    # networks:
+    #   - app-network
+
+# If you want an isolated network for your containers, uncomment:
+# networks:
+#   app-network:
+#     driver: bridge

@@ -10,6 +10,10 @@ url_db = {}
 # Pydantic model for request body
 class URLRequest(BaseModel):
     url: str
+    
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to URL shortener service"}
 
 def generate_short_id(length=6):
     # Generate a random string of given length
